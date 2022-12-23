@@ -21,6 +21,27 @@ class Character:
         self.id = Character.id_counter
         Character.id_counter += 1
 
+    def get_name(self):
+        return self.name
+
+    def get_charisma(self):
+        return self.charisma
+
+    def get_uniqueness(self):
+        return self.uniqueness
+
+    def get_nerve(self):
+        return self.nerve
+
+    def get_talent(self):
+        return self.nerve
+
+    def get_location(self):
+        return self.nerve
+
+    def get_coordinates(self):
+        return self.coordinates
+
 
 def main():
     pass
