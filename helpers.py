@@ -16,20 +16,19 @@ def add_numbers(first, second):
     return first + second
 
 
-def deliver_introduction(character_dictionary: dict) -> None:
+def deliver_introduction(player: Character) -> None:
     """
     Deliver introduction to player.
 
-    :param character_dictionary: must be a dictionary representing the player's character with the
-    key 'Name' present
-    :precondition: character must be a dictionary
+    :param player: the player
+    :precondition: player must be a Character
     :postcondition: print the game introduction
     """
     filename = './json_files/introduction.json'
     with open(filename) as file_object:
         introduction = json.load(file_object)
 
-    print(f"{introduction[0]}ConDRAGulations {character_dictionary['Name']},{introduction[1]}")
+    print(f"{introduction[0]}ConDRAGulations {player.get_name()},{introduction[1]}")
 
 
 def make_character(character_name: str) -> dict:
@@ -164,15 +163,15 @@ def you_win(character: dict, enemy_name: str or None, challenge_name: str) -> di
         print(f"{enemy_name} slinks away, clearly feeling the shade of it all.")
         print('You regain composure after all the reads.')
         increase = random.randint(8, 12)
-        return power_up_or_down(character, [0, 0, 2, increase], False)
+        return power_enemy_up_or_down(character, [0, 0, 2, increase], False)
     if challenge_name == 'makeover_challenge':
         print(f"\n\"ConDRAGulations {character['Name']} and {enemy_name},\nyou are the"
               f" winners of this mini challenge!\"\n")
         increase = random.randint(10, 15)
-        return power_up_or_down(character, [0, increase, 0, increase], False)
+        return power_enemy_up_or_down(character, [0, increase, 0, increase], False)
     if challenge_name == 'werk_room':
         print("\nYou are now level 2!")
-        # power_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
+        # power_enemy_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
                                      random.randint(30, 40), 15], False)
         print(f"\nRuPaul's voice echoes through the room: \n\n\"{character['Name']}, "
               f"please make your way to the Main Stage. "
@@ -185,8 +184,8 @@ def you_win(character: dict, enemy_name: str or None, challenge_name: str) -> di
               f"you're a winner baby!'\nYou feel your inner saboteur melting away.")
         print("\nYou are now level 3!")
         character['completed_lip_sync'] = True
-        power_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
-                                     random.randint(30, 40), 20], False)
+        power_enemy_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
+                                           random.randint(30, 40), 20], False)
         boards.set_board(character)
         print(f"\nYou are ushered towards the Judge's Panel.")
         return character
@@ -254,7 +253,7 @@ def main():
                  'coordinates': (6, 8), 'location': 'main_stage'}
     you_win(character, {'Name': 'test'}, 'read_battle')
     print(character)
-    print(power_up_or_down(character, [0, 0, 0, 8], True))
+    print(power_enemy_up_or_down(character, [0, 0, 0, 8], True))
 
 
 if __name__ == '__main__':
