@@ -7,6 +7,7 @@ import boards
 import controls
 import challenges
 import helpers
+from character import Character
 
 
 def game():
@@ -15,13 +16,13 @@ def game():
 
     :postcondition: a great time
     """
-    character = character_setup.make_character(input("What is the name of your Drag Persona?\n"))
-    character_setup.deliver_introduction(character)
+    player = Character(input("What is the name of your Drag Persona?\n"))
+    helpers.deliver_introduction(player)
 
-    while not character['achieved_goal']:
-        boards.display_board(character)
-        controls.move_character(character)
-        challenges.run_challenges(character)
+    while not player.get_achieved_goal():
+        boards.display_board(player)
+        controls.move_character(player)
+        challenges.run_challenges(player)
     return print('The END.')
 
 
