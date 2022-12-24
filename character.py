@@ -17,6 +17,7 @@ class Character:
         self.stats = (10, 10, 10, 10)
         self.location = 'werk_room'
         self.coordinates = (0, 4)
+        self.achieved_goal = False
 
         self.id = Character.id_counter
         Character.id_counter += 1
@@ -32,6 +33,9 @@ class Character:
 
     def get_coordinates(self):
         return self.coordinates
+
+    def get_achieved_goal(self):
+        return self.achieved_goal
 
     def setup_character(self):
         """
@@ -70,6 +74,10 @@ class Character:
                 print(f'Your {stat_names[index]} has increased by {abs(number)} to '
                       f'{initial_stats[index] + number}!')
             index += 1
+
+    def achieved_goal(self):
+        self.achieved_goal = True
+        return self.achieved_goal
 
 
 def main():
