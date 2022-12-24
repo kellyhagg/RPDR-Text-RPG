@@ -1,5 +1,6 @@
 import challenges
 import helpers
+import game
 
 
 class Character:
@@ -28,6 +29,15 @@ class Character:
 
     def get_stats(self):
         return self.stats
+
+    def get_charisma(self):
+        return self.stats[0]
+
+    def get_uniqueness(self):
+        return self.stats[1]
+
+    def get_nerve(self):
+        return self.stats[2]
 
     def get_talent(self):
         return self.stats[3]
@@ -79,9 +89,6 @@ class Character:
                       f'{initial_stats[index] + number}!')
             index += 1
 
-    def you_win(self):
-        return self
-
     def check_for_level_up(self, get_talent, you_win):
         """
         Determine whether the character has leveled up.
@@ -89,6 +96,17 @@ class Character:
         if self.location == 'werk_room' and get_talent(self) >= 40:
             self.level += 1
             you_win(self, None, 'werk_room')
+
+    def check_if_dead(self):
+        """
+        Determine whether player has lost all of their health (nerve).
+        """
+        if self.nerve <= 0:
+            print(f"\nYou hear RuPaul's voice:\n\n\"{self.get_name()},\nThank you for bringing your "
+                  f"Charisma, Uniqueness, Nerve, and Talent to the\ncompetition. "
+                  f"But this is not your time.\nNow.... Sashay Away.\"\n"
+                  f"--------------------------------------------------------------------------------")
+            game.game()
 
     def achieved_goal(self):
         self.achieved_goal = True
