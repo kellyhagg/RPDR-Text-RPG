@@ -15,6 +15,7 @@ class Character:
             self.name = name
 
         self.stats = (10, 10, 10, 10)
+        self.level = 1
         self.location = 'werk_room'
         self.coordinates = (0, 4)
         self.achieved_goal = False
@@ -27,6 +28,9 @@ class Character:
 
     def get_stats(self):
         return self.stats
+
+    def get_talent(self):
+        return self.stats[3]
 
     def get_location(self):
         return self.location
@@ -74,6 +78,17 @@ class Character:
                 print(f'Your {stat_names[index]} has increased by {abs(number)} to '
                       f'{initial_stats[index] + number}!')
             index += 1
+
+    def you_win(self):
+        return self
+
+    def check_for_level_up(self, get_talent, you_win):
+        """
+        Determine whether the character has leveled up.
+        """
+        if self.location == 'werk_room' and get_talent(self) >= 40:
+            self.level += 1
+            you_win(self, None, 'werk_room')
 
     def achieved_goal(self):
         self.achieved_goal = True
