@@ -6,10 +6,7 @@ Helper functions to facilitate game events.
 import json
 import random
 import boards
-import character
 from character import Character
-import challenges
-from game import game
 
 
 def add_numbers(first, second):
@@ -42,17 +39,17 @@ def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
     :return: dictionary representing the queen with their stats changed to reflect game events
     """
     stat_names = ['charisma', 'uniqueness', 'nerve', 'talent']
-    initial_stats = queen.get('stats')
+    initial_stats = queen['stats']
     index = 0
 
-    stats = tuple(map(add_numbers, queen.get('stats'), stat_changes))
+    enemy_stats = tuple(map(add_numbers, queen['stats'], stat_changes))
 
     for number in stat_changes:
         if number < 0:
-            print(f'Your {stat_names[index]} has decreased by {abs(number)} to '
+            print(f'{queen["name"]}\'s {stat_names[index]} has decreased by {abs(number)} to '
                   f'{initial_stats[index] + number}!')
         elif number > 0:
-            print(f'Your {stat_names[index]} has increased by {abs(number)} to '
+            print(f'{queen["name"]}\'s {stat_names[index]} has increased by {number} to '
                   f'{initial_stats[index] + number}!')
         index += 1
 
