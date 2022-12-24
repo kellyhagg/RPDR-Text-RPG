@@ -6,8 +6,14 @@ Create the player character and give them the introduction
 import json
 import random
 import boards
+import character
+from character import Character
 import challenges
 from game import game
+
+
+def add_numbers(first, second):
+    return first + second
 
 
 def deliver_introduction(character_dictionary: dict) -> None:
@@ -108,41 +114,30 @@ def apply_power_up(stat: tuple, value: int) -> dict:
     return {stat[0]: stat[1] + value}
 
 
-def power_up_or_down(character: dict, values: list, is_queen: bool) -> dict:
+def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
     """
     Update and print changes to stats for either the player or the enemy.
 
-    :param character: a dictionary representing a game character, either player or non-player
-    :param values: a list containing four integers
-    :param is_queen: a Boolean representing whether the dictionary represents the player character
-    or not
-    :postcondition: adjusts values stored inside character dictionary either up or down depending
+    :param queen: a dictionary representing a queen name and stats
+    :param stat_changes: a list containing four integers
+    :postcondition: adjusts values stored inside queen dictionary either up or down depending
     on whether the integers in values are positive or negative
-    :return: dictionary representing the character or queen with their stats changed to reflect
-    game events
+    :return: dictionary representing the queen with their stats changed to reflect game events
     """
-    stat_names = ['Charisma', 'Uniqueness', 'Nerve', 'Talent']
-    stats = [(stat, value) for stat, value in character.items() if stat in stat_names]
-    new_pairs = list(map(apply_power_up, stats, values))
+    stat_names = ['charisma', 'uniqueness', 'nerve', 'talent']
+    initial_stats = queen.get('stats')
+    index = 0
 
-    for pair in new_pairs:
-        character.update(pair)
+    stats = tuple(map(add_numbers, queen.get('stats'), stat_changes))
 
-    filtered_pairs = list(filter(filter_by_first_index, list(zip(new_pairs, values))))
-    for pair in filtered_pairs:
-        key = list(pair[0].keys())
-
-        if pair[1] < 0:
-            up_or_down = 'decreased'
-        else:
-            up_or_down = 'increased'
-
-        if is_queen:
-            name = character['Name']
-            print(f'{name}\'s {key[0]} has {up_or_down} by {abs(pair[1])} to '
-                  f'{pair[0].get(key[0])}!')
-        else:
-            print(f'Your {key[0]} has {up_or_down} by {abs(pair[1])} to {pair[0].get(key[0])}!')
+    for number in stat_changes:
+        if number < 0:
+            print(f'Your {stat_names[index]} has decreased by {abs(number)} to '
+                  f'{initial_stats[index] + number}!')
+        elif number > 0:
+            print(f'Your {stat_names[index]} has increased by {abs(number)} to '
+                  f'{initial_stats[index] + number}!')
+        index += 1
 
     return character
 
@@ -177,7 +172,7 @@ def you_win(character: dict, enemy_name: str or None, challenge_name: str) -> di
         return power_up_or_down(character, [0, increase, 0, increase], False)
     if challenge_name == 'werk_room':
         print("\nYou are now level 2!")
-        power_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
+        # power_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
                                      random.randint(30, 40), 15], False)
         print(f"\nRuPaul's voice echoes through the room: \n\n\"{character['Name']}, "
               f"please make your way to the Main Stage. "

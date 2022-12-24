@@ -6,7 +6,7 @@ Main game file.
 import boards
 import controls
 import challenges
-import character_setup
+import helpers
 
 
 def game():

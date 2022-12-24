@@ -1,8 +1,5 @@
 import challenges
-
-
-def add_numbers(first, second):
-    return first + second
+import helpers
 
 
 class Character:
@@ -47,7 +44,7 @@ class Character:
         answer = challenges.get_challenge_input_from_user(queen_types)
         index = queen_types.index(answer)
 
-        self.stats = tuple(map(add_numbers, self.stats, stat_add_ons[index]))
+        self.stats = tuple(map(helpers.add_numbers, self.stats, stat_add_ons[index]))
 
     def change_location(self, new_location):
         """
@@ -63,7 +60,7 @@ class Character:
         initial_stats = self.stats
         index = 0
 
-        self.stats = tuple(map(add_numbers, self.stats, stat_changes))
+        self.stats = tuple(map(helpers.add_numbers, self.stats, stat_changes))
 
         for number in stat_changes:
             if number < 0:

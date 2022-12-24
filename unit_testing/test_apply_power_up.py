@@ -1,5 +1,5 @@
 from unittest import TestCase
-from character_setup import apply_power_up
+from helpers import apply_power_up
 
 
 class TestApplyPowerUp(TestCase):

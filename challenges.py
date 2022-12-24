@@ -6,7 +6,7 @@ Challenges for the user to help them increase their level!
 import json
 import math
 import random
-import character_setup
+import helpers
 import itertools
 
 
@@ -49,17 +49,17 @@ def read_battle(character: dict) -> dict:
             if random.randint(1, 20) > 2:
                 print(f"You read {queens[enemy_queen]['Name']} for filth, she looks shaken.")
                 damage = -(random.randint(1, 8) + math.ceil(character['Charisma'] / 4))
-                character_setup.power_up_or_down(queens[enemy_queen],
+                helpers.power_up_or_down(queens[enemy_queen],
                                                  [random.choice([-1, 0]), damage], True)
             else:
                 print(f"Your read falls flat and {queens[enemy_queen]['Name']} scoffs.")
         elif player_choice == 'Act Unimpressed':
             print("You are emotionally preparing yourself for your opponent to speak")
-            character_setup.power_up_or_down(character, [0, 2, 0, 0], False)
+            helpers.power_up_or_down(character, [0, 2, 0, 0], False)
         elif player_choice == 'Flee':
             if random.randint(1, 100) > 33:
                 print("You successfully sashay away from the queen.")
-                return character_setup.power_up_or_down(character, [0, 0, 0, 0], False)
+                return helpers.power_up_or_down(character, [0, 0, 0, 0], False)
             else:
                 print(f"You try to get away but {queens[enemy_queen]['Name']} steps in front of "
                       f"you once again.")
@@ -69,16 +69,16 @@ def read_battle(character: dict) -> dict:
                 damage_to_player = -(random.randint(1, 3)
                                      + math.ceil(queens[enemy_queen]['Charisma'] / 5))
                 print(f"{queens[enemy_queen]['Name']} says {random.choice(potential_reads)}.")
-                character_setup.power_up_or_down(character, [0, 0, damage_to_player, 0], False)
-                character_setup.check_if_dead(character)
+                helpers.power_up_or_down(character, [0, 0, damage_to_player, 0], False)
+                helpers.check_if_dead(character)
             else:
                 print(f"{queens[enemy_queen]['Name']}'s read is laughably bad and has no effect!"
                       f"\nShe's clearly never been to the library in her life.")
 
     if character['level'] != 2:
         character['Nerve'] = starting_nerve
-        character_setup.you_win(character, queens[enemy_queen]['Name'], 'read_battle')
-        return character_setup.check_for_level_up(character)
+        helpers.you_win(character, queens[enemy_queen]['Name'], 'read_battle')
+        return  helpers.check_for_level_up(character)
     else:
         character.update({'Nerve': 0})
         return character
@@ -164,12 +164,12 @@ def makeover_challenge(character: dict) -> dict:
     print(f"RuPaul walks in wearing a Klein Epstein & Parker suit and examines each pair of\n"
           f"queens. She clears her throat in preparation to deliver the results...")
     if correct_answers > 1:
-        character_setup.you_win(character, queens[fellow_queen]['Name'], 'makeover_challenge')
-        return character_setup.check_for_level_up(character)
+        helpers.you_win(character, queens[fellow_queen]['Name'], 'makeover_challenge')
+        return  helpers.check_for_level_up(character)
     else:
         print(f"...and gives the win to another team, who you have to admit look fucking fierce."
               f"\nYou feel your confidence wane slightly.")
-        return character_setup.power_up_or_down(character, [-2, 0, 0, 0], False)
+        return  helpers.power_up_or_down(character, [-2, 0, 0, 0], False)
 
 
 def judge_events(character: dict):
@@ -188,16 +188,16 @@ def judge_events(character: dict):
     if event_check == 1:
         print(f'Michelle glares at you and says:\n"That dress is hideous. Where did you get it,'
               f' Party City?"')
-        character_setup.power_up_or_down(character, [-5, 0, 0, 0], True)
+        helpers.power_up_or_down(character, [-5, 0, 0, 0], True)
         return get_challenge_input_from_user(['Continue'])
     elif event_check == 2:
         print(f'Ross shouts:\n"Your pussy is on fire! Go get your crown, girl!"')
-        character_setup.power_up_or_down(character, [0, 4, 0, 0], True)
+        helpers.power_up_or_down(character, [0, 4, 0, 0], True)
         return get_challenge_input_from_user(['Continue'])
     elif event_check == 3:
         print(f'Carson claps his hands and says:\n"Oh I just loved your lip syncs, they were so '
               f'fabulous!"')
-        character_setup.power_up_or_down(character, [0, 0, 6, 0], True)
+        helpers.power_up_or_down(character, [0, 0, 6, 0], True)
         return get_challenge_input_from_user(['Continue'])
     else:
         return character
@@ -267,15 +267,15 @@ def main_stage_lip_sync(character: dict) -> dict:
 
     if correct_first_lyrics and (correct_second_lyrics or correct_final_lyrics):
         character["completed_lip_sync"] = True
-        return character_setup.you_win(character, None, 'lip_sync')
+        return  helpers.you_win(character, None, 'lip_sync')
     elif correct_second_lyrics and (correct_first_lyrics or correct_final_lyrics):
         character["completed_lip_sync"] = True
-        return character_setup.you_win(character, None, 'lip_sync')
+        return  helpers.you_win(character, None, 'lip_sync')
     elif correct_final_lyrics and (correct_first_lyrics or correct_second_lyrics):
         character["completed_lip_sync"] = True
-        return character_setup.you_win(character, None, 'lip_sync')
+        return  helpers.you_win(character, None, 'lip_sync')
     else:
-        character_setup.power_up_or_down(character, [0, 0, -random.randint(5, 10), 0], False)
+        helpers.power_up_or_down(character, [0, 0, -random.randint(5, 10), 0], False)
         character['coordinates'] = (6, 7)
         print(f"RuPaul's voice echoes:\n\"I'm sorry, {character['Name']}, you didn't win.\nBut..."
               f" I'm willing to give you another try. Practice up and assume the position\n"
@@ -315,13 +315,13 @@ def final_lip_sync(character: dict) -> dict:
     print(f"\nThe song ends. You stand in your pose, breathing heavily as RuPaul watches you.\n"
           f"Her face a mask...")
     if correct_first_lyrics and (correct_second_lyrics or correct_final_lyrics):
-        return character_setup.you_win(character, 'rupaul', 'rupaul')
+        return  helpers.you_win(character, 'rupaul', 'rupaul')
     elif correct_second_lyrics and (correct_first_lyrics or correct_final_lyrics):
-        return character_setup.you_win(character, 'rupaul', 'rupaul')
+        return  helpers.you_win(character, 'rupaul', 'rupaul')
     elif correct_final_lyrics and (correct_first_lyrics or correct_second_lyrics):
-        return character_setup.you_win(character, 'rupaul', 'rupaul')
+        return  helpers.you_win(character, 'rupaul', 'rupaul')
     character['Nerve'] = 0
-    return character_setup.check_if_dead(character)
+    return  helpers.check_if_dead(character)
 
 
 def final_battle(character: dict) -> None:
@@ -359,12 +359,12 @@ def final_battle(character: dict) -> None:
                 print(f"You read {queen_bitch_rupaul['Name']} for the gods... "
                       f"her eye twitches slightly.")
                 rupaul_damage = -(random.randint(1, 8) + math.ceil(character['Charisma'] / 6))
-                character_setup.power_up_or_down(queen_bitch_rupaul, [0, rupaul_damage], True)
+                helpers.power_up_or_down(queen_bitch_rupaul, [0, rupaul_damage], True)
             else:
                 print(f"Your read falls flat and {queen_bitch_rupaul['Name']} chuckles.")
         elif player_choice == 'Act Unimpressed':
             print("You are emotionally preparing yourself for RuPaul to read you for filth.")
-            character_setup.power_up_or_down(character, [0, 6, 0, 0], True)
+            helpers.power_up_or_down(character, [0, 6, 0, 0], True)
         else:
             print(f'{queen_bitch_rupaul["Name"]} says: "That\'s cute. '
                   f'You are staying right here till we\'re done"')
@@ -373,8 +373,8 @@ def final_battle(character: dict) -> None:
             damage_to_player = -(random.randint(1, 7)
                                  + math.ceil(queen_bitch_rupaul['Charisma'] / 10))
             print(f"{queen_bitch_rupaul['Name']} says,\n\"{random.choice(rupaul_reads)}.\"")
-            character_setup.power_up_or_down(character, [0, 0, damage_to_player, 0], False)
-            character_setup.check_if_dead(character)
+            helpers.power_up_or_down(character, [0, 0, damage_to_player, 0], False)
+            helpers.check_if_dead(character)
         else:
             print(f"{queen_bitch_rupaul['Name']} throws out a read that goes over your head.")
 
