@@ -31,43 +31,6 @@ def deliver_introduction(player: Character) -> None:
     print(f"{introduction[0]}ConDRAGulations {player.get_name()},{introduction[1]}")
 
 
-def make_character(character_name: str) -> dict:
-    """
-    Create character of desired name and class.
-
-    :param character_name: a string containing only alphabetic characters or spaces
-    :precondition: character_name must be a string
-    :postcondition: asks the user for input to determine class stats
-    :postcondition: create character dictionary containing name and stats of desired class
-    :return: a dictionary representing the player's character
-    """
-    character = {'met_rupaul': False, "completed_lip_sync": False, "level": 1,
-                 'achieved_goal': False, 'location': 'werk_room', 'coordinates': (0, 4)}
-    queen_types = ['Look Queen', 'Comedy Queen', 'Performance Queen', 'Alternative Queen']
-    stat_names = ["Charisma", "Uniqueness", "Nerve", "Talent"]
-
-    base_value = 10
-    queen_add_ons = ((4, 5, 0, 0), (5, 4, 0, 0), (7, 2, 0, 0), (2, 7, 0, 0))
-
-    print("What type of queen are you?")
-    answer = challenges.get_challenge_input_from_user(queen_types)
-    if answer == 'look_queen':
-        stat_values = [value + base_value for value in queen_add_ons[0]]
-    elif answer == 'comedy_queen':
-        stat_values = [value + base_value for value in queen_add_ons[1]]
-    elif answer == 'performance_queen':
-        stat_values = [value + base_value for value in queen_add_ons[2]]
-    else:
-        stat_values = [value + base_value for value in queen_add_ons[3]]
-
-    named_stats = list(zip(stat_names, stat_values))
-    stats = {stat: value for stat, value in named_stats}
-
-    character['Name'] = character_name
-    character.update(stats)
-    return character
-
-
 def filter_by_first_index(structure):
     """
     Accept any index-able object and return the element at index 0 if element at index 1 is not 0.
@@ -138,7 +101,7 @@ def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
                   f'{initial_stats[index] + number}!')
         index += 1
 
-    return character
+    return queen
 
 
 def you_win(character: dict, enemy_name: str or None, challenge_name: str) -> dict:
