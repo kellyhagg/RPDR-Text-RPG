@@ -59,7 +59,7 @@ def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
     return queen
 
 
-def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> dict:
+def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> Character:
     """
     Perform win events for player.
 
@@ -80,46 +80,44 @@ def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> 
         print(f"{enemy_name} slinks away, clearly feeling the shade of it all.")
         print('You regain composure after all the reads.')
         increase = random.randint(8, 12)
-        return power_enemy_up_or_down(player, [0, 0, 2, increase], False)
+        return player.power_up_or_down((0, 0, 2, increase))
     if challenge_name == 'makeover_challenge':
-        print(f"\n\"ConDRAGulations {player['Name']} and {enemy_name},\nyou are the"
+        print(f"\n\"ConDRAGulations {player.get_name()} and {enemy_name},\nyou are the"
               f" winners of this mini challenge!\"\n")
         increase = random.randint(10, 15)
-        return power_enemy_up_or_down(player, [0, increase, 0, increase], False)
+        return player.power_up_or_down((0, increase, 0, increase))
     if challenge_name == 'werk_room':
         print("\nYou are now level 2!")
-        # power_enemy_up_or_down(player, [random.randint(30, 40), random.randint(30, 40),
-                                     random.randint(30, 40), 15], False)
-        print(f"\nRuPaul's voice echoes through the room: \n\n\"{player['Name']}, "
+        player.power_up_or_down((random.randint(30, 40), random.randint(30, 40),
+                                 random.randint(30, 40), 15))
+        print(f"\nRuPaul's voice echoes through the room: \n\n\"{player.get_name()}, "
               f"please make your way to the Main Stage. "
               f"\nYou have been chosen to take part in a Lip Sync for Your Legacy!\"\n"
               f"\nYou quickly make your way to the stage, \nthe potential lip sync songs spinning"
               f" through your head.")
         return boards.set_board(player)
     if challenge_name == 'lip_sync':
-        print(f"RuPaul's voice echoes: 'ConDRAGulations {character['Name']}, "
+        print(f"RuPaul's voice echoes: 'ConDRAGulations {player.get_name()}, "
               f"you're a winner baby!'\nYou feel your inner saboteur melting away.")
         print("\nYou are now level 3!")
-        character['completed_lip_sync'] = True
-        power_enemy_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
-                                           random.randint(30, 40), 20], False)
-        boards.set_board(character)
+        player.power_up_or_down((random.randint(30, 40), random.randint(30, 40),
+                                 random.randint(30, 40), 20))
+        boards.set_board(player)
         print(f"\nYou are ushered towards the Judge's Panel.")
-        return character
+        return player
     if challenge_name == 'rupaul':
-        print(f"\nRuPaul's face breaks into a smile\n\"ConDRAGulations {character['Name']}, "
+        print(f"\nRuPaul's face breaks into a smile\n\"ConDRAGulations {player.get_name()}, "
               f"you're the winner baby!\"\nTriumphant music starts up as confetti begins to "
               f"fall from the ceiling.\n\nRuPaul says,\"You are now the Queen of the Mother Tucking"
               f" UNIVERSE!\"\n\nMother continues as she places a massive bejeweled crown upon your"
               f" head and a\nmatching scepter in your hand. You sob with happiness.\n\nYou"
               f" know that this... is the beginning of the rest of your life.\n")
-        character['achieved_goal'] = True
-        return character
+        return player.achieved_goal()
 
 
 def check_if_dead(character: dict) -> dict:
     """
-    Determine whether player player has lost all of their health ('Nerve')
+    Determine whether player has lost all of their health ('Nerve')
 
     :param character: a dictionary with the keys 'Nerve' and 'Name' present, with the value
     assigned to 'Nerve' being an integer and the value assigned to 'Name' being a string
