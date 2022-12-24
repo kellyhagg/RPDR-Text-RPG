@@ -115,40 +115,10 @@ def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> 
         return player.achieved_goal()
 
 
-def check_if_dead(character: dict) -> dict:
-    """
-    Determine whether player has lost all of their health ('Nerve')
-
-    :param character: a dictionary with the keys 'Nerve' and 'Name' present, with the value
-    assigned to 'Nerve' being an integer and the value assigned to 'Name' being a string
-    :precondition: player must be a dictionary
-    :postcondition: determine whether the value assigned to 'Nerve' is 0 or less
-    :postcondition: print loss statement, clears player dictionary, and restarts game if 'Nerve'
-    is 0 or less
-    :return: dictionary representing the player
-    """
-    if character['Nerve'] <= 0:
-        print(f"\nYou hear RuPaul's voice:\n\n\"{character['Name']},\nThank you for bringing your "
-              f"Charisma, Uniqueness, Nerve, and Talent to the\ncompetition. "
-              f"But this is not your time.\nNow.... Sashay Away.\"\n"
-              f"--------------------------------------------------------------------------------")
-        character.clear()
-        game()
-    return character
-
-
 def main():
-    """Drive the program."""
-    new_character = make_character(input('What is the name of your Drag Persona?\n'))
-    print(f"Your new player {new_character['Name']} has been created.")
-    deliver_introduction(new_character)
-    print(new_character)
-    character = {'Charisma': 15, 'Uniqueness': 14, 'Nerve': 10, 'Talent': 10, 'met_rupaul': False,
-                 'completed_lip_sync': False, 'level': 2, 'Name': 'Ginger Snaps',
-                 'coordinates': (6, 8), 'location': 'main_stage'}
-    you_win(character, {'Name': 'test'}, 'read_battle')
-    print(character)
-    print(power_enemy_up_or_down(character, [0, 0, 0, 8], True))
+    """
+    Drive the program.
+    """
 
 
 if __name__ == '__main__':
