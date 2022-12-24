@@ -1,5 +1,5 @@
 """
-Create the player character and give them the introduction
+Create the player player and give them the introduction
 """
 
 
@@ -29,25 +29,6 @@ def deliver_introduction(player: Character) -> None:
         introduction = json.load(file_object)
 
     print(f"{introduction[0]}ConDRAGulations {player.get_name()},{introduction[1]}")
-
-
-def filter_by_first_index(structure):
-    """
-    Accept any index-able object and return the element at index 0 if element at index 1 is not 0.
-    :param structure: any index-able object
-    :precondition: structure is any index-able object
-    :postcondition: structure is not mutated
-    :postcondition: return the second element of the object if it is not 0
-    :return: the second element of the object if it is not 0
-    >>> filter_by_first_index([5, None, 'peanuts'])
-    5
-    >>> filter_by_first_index(('cheese', 0))
-
-    >>> filter_by_first_index('Candy')
-    'C'
-    """
-    if structure[1] != 0:
-        return structure[0]
 
 
 def apply_power_up(stat: tuple, value: int) -> dict:
@@ -104,44 +85,43 @@ def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
     return queen
 
 
-def you_win(character: dict, enemy_name: str or None, challenge_name: str) -> dict:
+def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> dict:
     """
     Perform win events for player.
 
-    :param character: a dictionary representing the player character with the keys 'Name'
+    :param player: a dictionary representing the player character with the keys 'Name'
     and 'completed_lip_sync' present, with the value assigned to 'Name' being a string and the
     value assigned to 'completed_lip_sync' being a Boolean
     :param enemy_name: a non-empty string representing an NPC name or None if there is
     no NPC
     :param challenge_name: a non-empty string
-    :precondition: character must be a dictionary, enemy_name must be either a string or None,
+    :precondition: player must be a Character, enemy_name must be either a string or None,
     and challenge_name must be a string
     :postcondition: print specified win statements depending on the string passed as challenge_name
     :postcondition: change achieved_goal value to True if challenge_name is equal to 'rupaul'
-    :return: dictionary representing the character or queen with their stats changed to reflect
-    game events
+    :return: player with their stats changed to reflect game events
     """
     if challenge_name == 'read_battle':
         print('You win!')
         print(f"{enemy_name} slinks away, clearly feeling the shade of it all.")
         print('You regain composure after all the reads.')
         increase = random.randint(8, 12)
-        return power_enemy_up_or_down(character, [0, 0, 2, increase], False)
+        return power_enemy_up_or_down(player, [0, 0, 2, increase], False)
     if challenge_name == 'makeover_challenge':
-        print(f"\n\"ConDRAGulations {character['Name']} and {enemy_name},\nyou are the"
+        print(f"\n\"ConDRAGulations {player['Name']} and {enemy_name},\nyou are the"
               f" winners of this mini challenge!\"\n")
         increase = random.randint(10, 15)
-        return power_enemy_up_or_down(character, [0, increase, 0, increase], False)
+        return power_enemy_up_or_down(player, [0, increase, 0, increase], False)
     if challenge_name == 'werk_room':
         print("\nYou are now level 2!")
-        # power_enemy_up_or_down(character, [random.randint(30, 40), random.randint(30, 40),
+        # power_enemy_up_or_down(player, [random.randint(30, 40), random.randint(30, 40),
                                      random.randint(30, 40), 15], False)
-        print(f"\nRuPaul's voice echoes through the room: \n\n\"{character['Name']}, "
+        print(f"\nRuPaul's voice echoes through the room: \n\n\"{player['Name']}, "
               f"please make your way to the Main Stage. "
               f"\nYou have been chosen to take part in a Lip Sync for Your Legacy!\"\n"
               f"\nYou quickly make your way to the stage, \nthe potential lip sync songs spinning"
               f" through your head.")
-        return boards.set_board(character)
+        return boards.set_board(player)
     if challenge_name == 'lip_sync':
         print(f"RuPaul's voice echoes: 'ConDRAGulations {character['Name']}, "
               f"you're a winner baby!'\nYou feel your inner saboteur melting away.")
@@ -165,17 +145,17 @@ def you_win(character: dict, enemy_name: str or None, challenge_name: str) -> di
 
 def check_for_level_up(character: dict) -> dict:
     """
-    Determine whether the player character has leveled up.
+    Determine whether the player player has leveled up.
 
-    :param character: a dictionary representing the player character with the keys
+    :param character: a dictionary representing the player player with the keys
     'location', 'Talent', and 'level' present, with the value assigned to 'location' being a string
     and the values assigned to 'Talent' and 'level' being positive integers
-    :precondition: character must be a dictionary
-    :postcondition: determine whether the player character has leveled up based on the values
+    :precondition: player must be a dictionary
+    :postcondition: determine whether the player player has leveled up based on the values
     currently assigned to the 'location' and 'Talent' keys
-    :postcondition: pass character dictionary to function which levels up the character if the
+    :postcondition: pass player dictionary to function which levels up the player if the
     conditions are met
-    :return: dictionary representing the player character
+    :return: dictionary representing the player player
     """
     if character['location'] == 'werk_room' and character['Talent'] >= 40:
         character['level'] += 1
@@ -185,15 +165,15 @@ def check_for_level_up(character: dict) -> dict:
 
 def check_if_dead(character: dict) -> dict:
     """
-    Determine whether player character has lost all of their health ('Nerve')
+    Determine whether player player has lost all of their health ('Nerve')
 
     :param character: a dictionary with the keys 'Nerve' and 'Name' present, with the value
     assigned to 'Nerve' being an integer and the value assigned to 'Name' being a string
-    :precondition: character must be a dictionary
+    :precondition: player must be a dictionary
     :postcondition: determine whether the value assigned to 'Nerve' is 0 or less
-    :postcondition: print loss statement, clears character dictionary, and restarts game if 'Nerve'
+    :postcondition: print loss statement, clears player dictionary, and restarts game if 'Nerve'
     is 0 or less
-    :return: dictionary representing the character
+    :return: dictionary representing the player
     """
     if character['Nerve'] <= 0:
         print(f"\nYou hear RuPaul's voice:\n\n\"{character['Name']},\nThank you for bringing your "
@@ -208,7 +188,7 @@ def check_if_dead(character: dict) -> dict:
 def main():
     """Drive the program."""
     new_character = make_character(input('What is the name of your Drag Persona?\n'))
-    print(f"Your new character {new_character['Name']} has been created.")
+    print(f"Your new player {new_character['Name']} has been created.")
     deliver_introduction(new_character)
     print(new_character)
     character = {'Charisma': 15, 'Uniqueness': 14, 'Nerve': 10, 'Talent': 10, 'met_rupaul': False,
