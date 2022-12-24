@@ -1,5 +1,5 @@
 """
-Create the player player and give them the introduction
+Helper functions to facilitate game events.
 """
 
 
@@ -29,32 +29,6 @@ def deliver_introduction(player: Character) -> None:
         introduction = json.load(file_object)
 
     print(f"{introduction[0]}ConDRAGulations {player.get_name()},{introduction[1]}")
-
-
-def apply_power_up(stat: tuple, value: int) -> dict:
-    """
-    Calculate new value to be assigned to a stat.
-
-    :param stat: a tuple containing a string representing the name of a stat and an integer
-    representing the value assigned to that stat
-    :param value: an integer
-    :precondition: stat must be a tuple and value must be an integer
-    :postcondition: calculate the new value of the second element in the stat tuple after the
-    addition of value
-    :return: a dictionary with a key which is equal to the first element of the stat tuple with a
-    value of 0 if adding the value parameter to it would have made it negative, else a dictionary
-    with a key which is equal to the first element of the stat tuple with a value that is equal to
-    the second element of the stat tuple with the value parameter added to it
-    >>> apply_power_up(('Charisma', 15), 34)
-    {'Charisma': 49}
-    >>> apply_power_up(('Nerve', 4), -4)
-    {'Nerve': 0}
-    >>> apply_power_up(('Uniqueness', 12), -20)
-    {'Uniqueness': 0}
-    """
-    if stat[1] + value < 0:
-        return {stat[0]: 0}
-    return {stat[0]: stat[1] + value}
 
 
 def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
@@ -141,26 +115,6 @@ def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> 
               f" know that this... is the beginning of the rest of your life.\n")
         character['achieved_goal'] = True
         return character
-
-
-def check_for_level_up(character: dict) -> dict:
-    """
-    Determine whether the player player has leveled up.
-
-    :param character: a dictionary representing the player player with the keys
-    'location', 'Talent', and 'level' present, with the value assigned to 'location' being a string
-    and the values assigned to 'Talent' and 'level' being positive integers
-    :precondition: player must be a dictionary
-    :postcondition: determine whether the player player has leveled up based on the values
-    currently assigned to the 'location' and 'Talent' keys
-    :postcondition: pass player dictionary to function which levels up the player if the
-    conditions are met
-    :return: dictionary representing the player player
-    """
-    if character['location'] == 'werk_room' and character['Talent'] >= 40:
-        character['level'] += 1
-        you_win(character, None, 'werk_room')
-    return character
 
 
 def check_if_dead(character: dict) -> dict:
