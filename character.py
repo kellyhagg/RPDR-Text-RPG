@@ -5,7 +5,7 @@ class Character:
 
     id_counter = 0
 
-    def __init__(self, name, charisma, uniqueness, nerve, talent, location, coordinates):
+    def __init__(self, name):
         if name == '':
             raise ValueError("Character name cannot be empty.")
         else:
@@ -37,14 +37,47 @@ class Character:
         return self.nerve
 
     def get_location(self):
-        return self.nerve
+        return self.location
 
     def get_coordinates(self):
         return self.coordinates
 
+    def change_location(self, new_location):
+        """
+        Update character location.
+        """
+        self.location = new_location
+
+    def power_up_or_down(self, stat_changes):
+        """
+        Update and print changes to stats for either the character.
+        """
+        stat_names = ['charisma', 'uniqueness', 'nerve', 'talent']
+        initial_stats = [self.charisma, self.uniqueness, self.nerve, self.talent]
+        index = 0
+
+        self.charisma += stat_changes[0]
+        self.uniqueness += stat_changes[1]
+        self.nerve += stat_changes[2]
+        self.talent += stat_changes[3]
+
+        for number in stat_changes:
+            if number < 0:
+                print(f'Your {stat_names[index]} has decreased by {abs(number)} to '
+                      f'{initial_stats[index] + number}!')
+            elif number > 0:
+                print(f'Your {stat_names[index]} has increased by {abs(number)} to '
+                      f'{initial_stats[index] + number}!')
+            index += 1
+
 
 def main():
-    pass
+    my_character = Character('Kelly')
+    print(my_character.get_name())
+    print(my_character.get_uniqueness())
+    print(my_character.get_location())
+    print(my_character.get_coordinates())
+    my_character.power_up_or_down([1, 2, 0, 4])
 
 
 if __name__ == '__main__':
