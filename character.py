@@ -1,3 +1,6 @@
+import challenges
+
+
 class Character:
     """
     A class representing the character.
@@ -42,6 +45,30 @@ class Character:
     def get_coordinates(self):
         return self.coordinates
 
+    def setup_character(self):
+        """
+        Add base stats per base character type selection by user.
+        """
+        queen_types = ['Look Queen', 'Comedy Queen', 'Performance Queen', 'Alternative Queen']
+
+        queen_add_ons = ((4, 5, 0, 0), (5, 4, 0, 0), (7, 2, 0, 0), (2, 7, 0, 0))
+
+        print("What type of queen are you?")
+        answer = challenges.get_challenge_input_from_user(queen_types)
+        if answer == 'look_queen':
+            selected_add_ons = queen_add_ons[0]
+        elif answer == 'comedy_queen':
+            selected_add_ons = queen_add_ons[1]
+        elif answer == 'performance_queen':
+            selected_add_ons = queen_add_ons[2]
+        else:
+            selected_add_ons = queen_add_ons[3]
+
+        self.charisma += selected_add_ons[0]
+        self.uniqueness += selected_add_ons[1]
+        self.nerve += selected_add_ons[2]
+        self.talent += selected_add_ons[3]
+
     def change_location(self, new_location):
         """
         Update character location.
@@ -77,7 +104,8 @@ def main():
     print(my_character.get_uniqueness())
     print(my_character.get_location())
     print(my_character.get_coordinates())
-    my_character.power_up_or_down([1, 2, 0, 4])
+    my_character.setup_character()
+    my_character.power_up_or_down((1, 2, 0, 4))
 
 
 if __name__ == '__main__':
