@@ -48,7 +48,7 @@ def read_battle(player):
         if player_choice == 'Read':
             if random.randint(1, 20) > 2:
                 print(f"You read {queens[enemy_queen]['Name']} for filth, she looks shaken.")
-                damage = -(random.randint(1, 8) + math.ceil(player['Charisma'] / 4))
+                damage = -(random.randint(1, 8) + math.ceil(player.get_charisma() / 4))
                 helpers.power_enemy_up_or_down(queens[enemy_queen],
                                                (random.choice([-1, 0]), damage))
             else:
