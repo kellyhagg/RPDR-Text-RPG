@@ -62,13 +62,13 @@ class Character:
         Add base stats per base character type selection by user.
         """
         queen_types = ['Look Queen', 'Comedy Queen', 'Performance Queen', 'Alternative Queen']
-        stat_add_ons = ((4, 5, 0, 0), (5, 4, 0, 0), (7, 2, 0, 0), (2, 7, 0, 0))
+        stat_add_ons = ([4, 5, 0, 0], [5, 4, 0, 0], [7, 2, 0, 0], [2, 7, 0, 0])
 
         print("What type of queen are you?")
         answer = challenges.get_challenge_input_from_user(queen_types)
         index = queen_types.index(answer)
 
-        self.stats = tuple(map(helpers.add_numbers, self.stats, stat_add_ons[index]))
+        self.stats = list(map(helpers.add_numbers, self.stats, stat_add_ons[index]))
 
     def move_to_coordinates(self, new_coordinates):
         self.coordinates = new_coordinates
@@ -94,7 +94,7 @@ class Character:
         initial_stats = self.stats
         index = 0
 
-        self.stats = tuple(map(helpers.add_numbers, self.stats, stat_changes))
+        self.stats = list(map(helpers.add_numbers, self.stats, stat_changes))
 
         for number in stat_changes:
             if number < 0:
@@ -105,13 +105,13 @@ class Character:
                       f'{initial_stats[index] + number}!')
             index += 1
 
-    def check_for_level_up(self, get_talent, you_win):
+    def check_for_level_up(self):
         """
         Determine whether the character has leveled up.
         """
-        if self.location == 'werk_room' and get_talent(self) >= 40:
+        if self.location == 'werk_room' and self.get_talent() >= 40:
             self.level += 1
-            you_win(self, None, 'werk_room')
+            helpers.you_win(self, None, 'werk_room')
 
     def check_if_dead(self):
         """
