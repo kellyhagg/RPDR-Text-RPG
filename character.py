@@ -70,6 +70,13 @@ class Character:
         """
         self.location = new_location
 
+        if new_location == 'dressing_room':
+            self.coordinates = (1, 5)
+        elif new_location == 'judges_panel':
+            self.coordinates = (1, 6)
+        elif new_location == 'main_stage':
+            self.coordinates = (0, 5)
+
     def power_up_or_down(self, stat_changes):
         """
         Update and print changes to stats for either the character.
