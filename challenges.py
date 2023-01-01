@@ -171,13 +171,12 @@ def makeover_challenge(player):
         return player.power_up_or_down([-2, 0, 0, 0])
 
 
-def judge_events(character: dict):
+def judge_events(player):
     """
     Provide possible random events for each player movement.
 
-    :param character: a dictionary representing the player player
-    :precondition: player must be a dictionary with the keys 'Charisma', 'Uniqueness', 'Nerve',
-    and 'Talent' present
+    :param player: a Character
+    :precondition: player must be a Character
     and each must have a positive integer for their value
     :postcondition: print in-game events to user
     :postcondition: determine whether a random judge event happens or not
@@ -187,19 +186,19 @@ def judge_events(character: dict):
     if event_check == 1:
         print(f'Michelle glares at you and says:\n"That dress is hideous. Where did you get it,'
               f' Party City?"')
-        helpers.power_enemy_up_or_down(character, [-5, 0, 0, 0], True)
+        player.power_up_or_down([-5, 0, 0, 0])
         return get_challenge_input_from_user(['Continue'])
     elif event_check == 2:
         print(f'Ross shouts:\n"Your pussy is on fire! Go get your crown, girl!"')
-        helpers.power_enemy_up_or_down(character, [0, 4, 0, 0], True)
+        player.power_up_or_down([0, 4, 0, 0])
         return get_challenge_input_from_user(['Continue'])
     elif event_check == 3:
         print(f'Carson claps his hands and says:\n"Oh I just loved your lip syncs, they were so '
               f'fabulous!"')
-        helpers.power_enemy_up_or_down(character, [0, 0, 6, 0], True)
+        player.power_up_or_down([0, 0, 6, 0])
         return get_challenge_input_from_user(['Continue'])
     else:
-        return character
+        return player
 
 
 def perform_lyrics(lip_sync_dictionary: dict, lyric_list: list) -> bool:
