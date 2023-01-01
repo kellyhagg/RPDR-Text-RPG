@@ -6,7 +6,7 @@ Helper functions to facilitate game events.
 import json
 import random
 import boards
-from character_class import Character
+from character import Character
 
 
 def add_numbers(first, second):

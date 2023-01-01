@@ -7,7 +7,7 @@ import boards
 import controls
 import challenges
 import helpers
-from character_class import Character
+from character import Character
 
 
 def game():
