@@ -10,11 +10,11 @@ import helpers
 import itertools
 
 
-def read_battle(character: dict) -> dict:
+def read_battle(player):
     """
     Run read_battle event for player.
 
-    :param character: a dictionary representing the player character with the keys
+    :param player: a dictionary representing the player character with the keys
     'Charisma', 'Uniqueness', and 'Nerve' present with each of their values being positive integers
     :precondition: character must be a dictionary
     :precondition: input must be provided by the user for the function to complete
@@ -41,25 +41,25 @@ def read_battle(character: dict) -> dict:
     print(f"{queens[enemy_queen]['Name']} approaches you, placing the dreaded Reading Glasses on "
           f"her face as\nthe library opens.")
 
-    starting_nerve = character['Nerve']
+    starting_nerve = player.get_nerve()
     while queens[enemy_queen]['Nerve'] > 0:
         print("The queen stands strong, what will you do?")
         player_choice = get_challenge_input_from_user(['Read', 'Act Unimpressed', 'Flee'])
         if player_choice == 'Read':
             if random.randint(1, 20) > 2:
                 print(f"You read {queens[enemy_queen]['Name']} for filth, she looks shaken.")
-                damage = -(random.randint(1, 8) + math.ceil(character['Charisma'] / 4))
+                damage = -(random.randint(1, 8) + math.ceil(player['Charisma'] / 4))
                 helpers.power_enemy_up_or_down(queens[enemy_queen],
-                                               [random.choice([-1, 0]), damage], True)
+                                               (random.choice([-1, 0]), damage))
             else:
                 print(f"Your read falls flat and {queens[enemy_queen]['Name']} scoffs.")
         elif player_choice == 'Act Unimpressed':
             print("You are emotionally preparing yourself for your opponent to speak")
-            helpers.power_enemy_up_or_down(character, [0, 2, 0, 0], False)
+            player.power_up_or_down(0, 2, 0, 0)
         elif player_choice == 'Flee':
             if random.randint(1, 100) > 33:
                 print("You successfully sashay away from the queen.")
-                return helpers.power_enemy_up_or_down(character, [0, 0, 0, 0], False)
+                return player.power_up_or_down(0, 0, 0, 0)
             else:
                 print(f"You try to get away but {queens[enemy_queen]['Name']} steps in front of "
                       f"you once again.")
@@ -69,19 +69,19 @@ def read_battle(character: dict) -> dict:
                 damage_to_player = -(random.randint(1, 3)
                                      + math.ceil(queens[enemy_queen]['Charisma'] / 5))
                 print(f"{queens[enemy_queen]['Name']} says {random.choice(potential_reads)}.")
-                helpers.power_enemy_up_or_down(character, [0, 0, damage_to_player, 0], False)
-                helpers.check_if_dead(character)
+                player.power_up_or_down(0, 0, damage_to_player, 0)
+                player.check_if_dead()
             else:
                 print(f"{queens[enemy_queen]['Name']}'s read is laughably bad and has no effect!"
                       f"\nShe's clearly never been to the library in her life.")
 
-    if character['level'] != 2:
-        character['Nerve'] = starting_nerve
-        helpers.you_win(character, queens[enemy_queen]['Name'], 'read_battle')
-        return  helpers.check_for_level_up(character)
+    if player['level'] != 2:
+        player['Nerve'] = starting_nerve
+        helpers.you_win(player, queens[enemy_queen]['Name'], 'read_battle')
+        return player.check_for_level_up()
     else:
-        character.update({'Nerve': 0})
-        return character
+        player.update({'Nerve': 0})
+        return player
 
 
 def generate_random_answers(correct_answer: tuple) -> list:
@@ -106,17 +106,17 @@ def generate_random_answers(correct_answer: tuple) -> list:
 
 def makeover_challenge(character: dict) -> dict:
     """
-    Run makeover challenge for player character.
+    Run makeover challenge for player player.
 
-    :param character: a dictionary representing the player character with the key 'Name' present
+    :param character: a dictionary representing the player player with the key 'Name' present
     whose assigned value must be a string
-    :precondition: character must be a dictionary
+    :precondition: player must be a dictionary
     :precondition: input must be provided by the user for the function to complete
     :postcondition: runs makeup challenge for player
     :postcondition: determine whether player succeeds or fails challenge
     :postcondition: print in-game events to user
     :postcondition: run you_win, power_enemy_up_or_down, and check_for_level_up based on game events
-    :return: character dictionary updated to reflect in-game events
+    :return: player dictionary updated to reflect in-game events
     """
     makeup_question = ('Foundation', 'Eye shadow', 'Contouring')
     lips_question = ('Lip Liner', 'Lipstick', 'Lip Gloss')
@@ -174,15 +174,15 @@ def makeover_challenge(character: dict) -> dict:
 
 def judge_events(character: dict):
     """
-    Provide possible random events for each character movement.
+    Provide possible random events for each player movement.
 
-    :param character: a dictionary representing the player character
-    :precondition: character must be a dictionary with the keys 'Charisma', 'Uniqueness', 'Nerve',
+    :param character: a dictionary representing the player player
+    :precondition: player must be a dictionary with the keys 'Charisma', 'Uniqueness', 'Nerve',
     and 'Talent' present
     and each must have a positive integer for their value
     :postcondition: print in-game events to user
     :postcondition: determine whether a random judge event happens or not
-    :return: character dictionary updated to reflect in-game events
+    :return: player dictionary updated to reflect in-game events
     """
     event_check = random.randint(1, 10)
     if event_check == 1:
@@ -231,18 +231,18 @@ def main_stage_lip_sync(character: dict) -> dict:
     """
     Run lip sync event for player.
 
-    :param character: a dictionary representing the player character which contains the keys 'Name'
+    :param character: a dictionary representing the player player which contains the keys 'Name'
     'completed_lip_sync', and 'Nerve' where the value assigned to 'Name' is a string, the value
     assigned to 'completed_lip_sync' is a Boolean, and the value assigned to 'Nerve' is a
     positive integer
-    :precondition: character must be a dictionary
+    :precondition: player must be a dictionary
     :precondition: input must be provided by the user for the function to complete
     :postcondition: print in-game events to user
     :postcondition: run the lip sync event for the player
     :postcondition: determine whether the player provided enough correct answers to pass the event
-    :postcondition: set value assigned to 'completed_lip_sync' key in player character dictionary
+    :postcondition: set value assigned to 'completed_lip_sync' key in player player dictionary
     to True
-    :return: character dictionary updated to reflect in-game events
+    :return: player dictionary updated to reflect in-game events
     """
     filename = './json_files/lip_sync_data.json'
     with open(filename) as file_object:
@@ -288,14 +288,14 @@ def final_lip_sync(character: dict) -> dict:
     """
     Run final lip sync challenge for the player.
 
-    :param character: a dictionary representing the player character with the key 'Name' present
+    :param character: a dictionary representing the player player with the key 'Name' present
     whose assigned value is a string
-    :precondition: character must be a dictionary
+    :precondition: player must be a dictionary
     :precondition: input must be provided by the user via perform_lyrics for the function to
     complete
     :postcondition: print in-game events to user
     :postcondition: determine whether the player successfully completed the challenge or not
-    :return: character dictionary updated to reflect in-game events
+    :return: player dictionary updated to reflect in-game events
     """
     filename = './json_files/rupaul_lip_sync.json'
     with open(filename) as file_object:
@@ -328,15 +328,15 @@ def final_battle(character: dict) -> None:
     """
     Run final battle event for player.
 
-    :param character: a dictionary representing the player character with the keys 'Name',
+    :param character: a dictionary representing the player player with the keys 'Name',
     'Charisma', and 'Nerve' present, where the value assigned to 'Name' is a string, and the values
     assigned to 'Charisma' and 'Nerve' are both positive integers
-    :precondition: character must be a dictionary
+    :precondition: player must be a dictionary
     :precondition: input must be provided by the user for the function to complete
     :postcondition: runs the final battle for the player
     :postcondition: print in-game events as they occur
     :postcondition: determine whether the player is successful in the final battle or not
-    :postcondition: run final_lip_sync function if player character's health ('Nerve') does not
+    :postcondition: run final_lip_sync function if player player's health ('Nerve') does not
     reach or go below 0 before RuPaul's drops below 35
     """
     rupaul_reads = ("I never thought I'd meet a queen whose heels weigh more than her brain",
@@ -444,12 +444,12 @@ def run_challenges(character: dict):
     """
     Run challenges for player.
 
-    :param character: a dictionary representing the player character with the keys 'location',
+    :param character: a dictionary representing the player player with the keys 'location',
     'coordinates', and 'level' present where the value assigned to 'location' is a string, the
     value assigned to 'coordinates' is a tuple containing two positive integers, and the value
     assigned to 'level' is a positive integer
-    :precondition: character must be a dictionary
-    :postcondition: determine if a challenge is run based on the values stored in character
+    :precondition: player must be a dictionary
+    :postcondition: determine if a challenge is run based on the values stored in player
     :return: read_battle function if the value assigned to 'location' is 'werk_room', the value
     assigned to 'coordinates' is not (0, 4) or (6, 4) and the value assigned to 'level' is not 2,
     main_stage_lip_sync function if the value assigned to 'location' is 'main_stage' and the value
