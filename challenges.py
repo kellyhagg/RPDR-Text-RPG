@@ -276,13 +276,12 @@ def main_stage_lip_sync(player):
     return player
 
 
-def final_lip_sync(character: dict) -> dict:
+def final_lip_sync(player):
     """
     Run final lip sync challenge for the player.
 
-    :param character: a dictionary representing the player player with the key 'Name' present
-    whose assigned value is a string
-    :precondition: player must be a dictionary
+    :param player: a Character
+    :precondition: player must be a Character
     :precondition: input must be provided by the user via perform_lyrics for the function to
     complete
     :postcondition: print in-game events to user
@@ -307,13 +306,13 @@ def final_lip_sync(character: dict) -> dict:
     print(f"\nThe song ends. You stand in your pose, breathing heavily as RuPaul watches you.\n"
           f"Her face a mask...")
     if correct_first_lyrics and (correct_second_lyrics or correct_final_lyrics):
-        return  helpers.you_win(character, 'rupaul', 'rupaul')
+        return helpers.you_win(player, 'rupaul', 'rupaul')
     elif correct_second_lyrics and (correct_first_lyrics or correct_final_lyrics):
-        return  helpers.you_win(character, 'rupaul', 'rupaul')
+        return helpers.you_win(player, 'rupaul', 'rupaul')
     elif correct_final_lyrics and (correct_first_lyrics or correct_second_lyrics):
-        return  helpers.you_win(character, 'rupaul', 'rupaul')
-    character['Nerve'] = 0
-    return  helpers.check_if_dead(character)
+        return helpers.you_win(player, 'rupaul', 'rupaul')
+    player.set_nerve(0)
+    return player.check_if_dead()
 
 
 def final_battle(character: dict) -> None:
