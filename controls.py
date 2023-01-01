@@ -5,10 +5,9 @@ Generate and operate the controls for the player.
 
 import challenges
 import boards
-import character
 
 
-def show_score(player) -> None:
+def show_score(player):
     """
     Display current character stats for player
 
