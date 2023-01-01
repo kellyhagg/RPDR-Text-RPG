@@ -15,7 +15,7 @@ class Character:
         else:
             self.name = name
 
-        self.stats = (10, 10, 10, 10)
+        self.stats = [10, 10, 10, 10]
         self.level = 1
         self.location = 'werk_room'
         self.coordinates = (0, 4)
@@ -41,6 +41,9 @@ class Character:
 
     def get_nerve(self):
         return self.stats[2]
+
+    def set_nerve(self, new_nerve):
+        self.stats[3] = new_nerve
 
     def get_talent(self):
         return self.stats[3]
