@@ -134,46 +134,43 @@ def clear_board(board: str) -> str:
     return cleared_board
 
 
-def format_board(board: str, character: dict) -> str:
+def format_board(board: str, board_name: str) -> str:
     """
     Format game board for player.
 
-    :param board: a string representing the name of the current board
-    :param character: a dictionary representing the player character with the key 'location'
-    present whose value must be the string 'werk_room', 'dressing_room', or 'main_stage'
+    :param board:
+    :param board_name: a string representing the name of the current board
     :precondition: board must be a string and character must be a dictionary
     :postcondition: format board by adding in required symbols based on the current location
     of the player
     :return: string representing the board of the current location of the user
     """
-    location = character['location']
-
-    if location == 'werk_room':
+    if board_name == 'werk_room':
         return board[:231] + 'Q' + board[232:299] + 'Q' + board[300:407] + 'Q' + \
                board[408:475] + 'Q' + board[476:]
-    elif location == 'dressing_room':
+    elif board_name == 'dressing_room':
         return board[:118] + 'R' + board[119:]
-    elif location == 'main_stage':
+    elif board_name == 'main_stage':
         return board[:544] + 'Q' + board[545:568] + 'X' + board[569:]
     return board
 
 
-def display_board(character: dict) -> None:
+def display_board(player: Character) -> None:
     """
     Display game board of current location for the player.
 
-    :param character: a dictionary representing the player character with the keys
+    :param player: a dictionary representing the player character with the keys
     'location' and 'coordinates' present and the value of 'location' must be a string while the
     value of 'coordinates' must be a tuple containing two positive integers that represent the
     coordinates of the player
-    :precondition: character must be a dictionary
+    :precondition: player must be of Character class
     :postcondition: open the board from a JSON file
     :postcondition: pass correct board into the format_board function
     :postcondition: print the formatted board statement containing along with the correctly
     formatted board
     """
-    board_name = character.get('location')
-    current_coordinates = character.get('coordinates')
+    board_name = player.get_location()
+    current_coordinates = player.get_coordinates()
     board_indices = index_board(board_name)
 
     filename = './json_files/location_descriptions.json'
@@ -189,7 +186,7 @@ def display_board(character: dict) -> None:
         print(descriptions[1])
 
     marked_board = place_character_in_board(read_board(board_name), current_coordinates)
-    formatted_board = format_board(marked_board, character)
+    formatted_board = format_board(marked_board, board_name)
 
     return print(clear_board(formatted_board))
 
