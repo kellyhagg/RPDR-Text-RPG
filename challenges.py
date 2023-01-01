@@ -292,7 +292,7 @@ def final_lip_sync(player):
     with open(filename) as file_object:
         event_selection = json.load(file_object)
 
-    print(f"\nRuPaul shouts \"The library is officially closed! Now {character['Name']}\""
+    print(f"\nRuPaul shouts \"The library is officially closed! Now {player.get_name()}\""
           f"...\n\nThe time has come...\nFor you to Lip Sync....\nFor. \nThe."
           f"\nCROWN.\n\nThe lights dim and the familiar beat of a RuPaul song begins.\n"
           f"Which do you lip sync?")
@@ -429,15 +429,12 @@ def get_challenge_input_from_user(possible_answers: list) -> str:
     return answer_string
 
 
-def run_challenges(character: dict):
+def run_challenges(player):
     """
     Run challenges for player.
 
-    :param character: a dictionary representing the player player with the keys 'location',
-    'coordinates', and 'level' present where the value assigned to 'location' is a string, the
-    value assigned to 'coordinates' is a tuple containing two positive integers, and the value
-    assigned to 'level' is a positive integer
-    :precondition: player must be a dictionary
+    :param player: a Character
+    :precondition: player must be a Character
     :postcondition: determine if a challenge is run based on the values stored in player
     :return: read_battle function if the value assigned to 'location' is 'werk_room', the value
     assigned to 'coordinates' is not (0, 4) or (6, 4) and the value assigned to 'level' is not 2,
@@ -445,27 +442,22 @@ def run_challenges(character: dict):
     assigned to 'coordinates' is (6, 8), judge_events function if the value assigned to 'location'
     is 'judges_panel' and the value assigned to 'coordinates' is not (1, 6) or (2, 0)
     """
-    location = character['location']
-    coordinates = character['coordinates']
+    location = player.get_location()
+    coordinates = player.get_coordinates()
 
     if location == 'werk_room' and coordinates != (0, 4) and coordinates != (6, 4) \
-            and character['level'] != 2:
+            and player.get_level() != 2:
         if random.randint(1, 10) <= 3:
-            return read_battle(character)
+            return read_battle(player)
     if location == 'main_stage' and coordinates == (6, 8):
-        return main_stage_lip_sync(character)
+        return main_stage_lip_sync(player)
     if location == 'judges_panel' and coordinates != (1, 6) and coordinates != (2, 0):
-        return judge_events(character)
+        return judge_events(player)
 
 
 def main():
-    character = {'Charisma': 15, 'Uniqueness': 14, 'Nerve': 10, 'Talent': 10, 'met_rupaul': False,
-                 'completed_lip_sync': False, 'level': 2, 'Name': 'Ginger Snaps',
-                 'coordinates': (6, 8), 'location': 'main_stage'}
     print('The following to functions utilize most of the functions within this module and how '
           'they work in tandem.')
-    run_challenges(character)
-    read_battle(character)
 
 
 if __name__ == '__main__':
