@@ -55,11 +55,11 @@ def read_battle(player):
                 print(f"Your read falls flat and {queens[enemy_queen]['Name']} scoffs.")
         elif player_choice == 'Act Unimpressed':
             print("You are emotionally preparing yourself for your opponent to speak")
-            player.power_up_or_down(0, 2, 0, 0)
+            player.power_up_or_down([0, 2, 0, 0])
         elif player_choice == 'Flee':
             if random.randint(1, 100) > 33:
                 print("You successfully sashay away from the queen.")
-                return player.power_up_or_down(0, 0, 0, 0)
+                return player.power_up_or_down([0, 0, 0, 0])
             else:
                 print(f"You try to get away but {queens[enemy_queen]['Name']} steps in front of "
                       f"you once again.")
@@ -69,7 +69,7 @@ def read_battle(player):
                 damage_to_player = -(random.randint(1, 3)
                                      + math.ceil(queens[enemy_queen]['Charisma'] / 5))
                 print(f"{queens[enemy_queen]['Name']} says {random.choice(potential_reads)}.")
-                player.power_up_or_down(0, 0, damage_to_player, 0)
+                player.power_up_or_down([0, 0, damage_to_player, 0])
                 player.check_if_dead()
             else:
                 print(f"{queens[enemy_queen]['Name']}'s read is laughably bad and has no effect!"
@@ -80,8 +80,7 @@ def read_battle(player):
         helpers.you_win(player, queens[enemy_queen]['Name'], 'read_battle')
         return player.check_for_level_up()
     else:
-        player.update({'Nerve': 0})
-        return player
+        return player.set_nerve(0)
 
 
 def generate_random_answers(correct_answer: tuple) -> list:
@@ -104,11 +103,11 @@ def generate_random_answers(correct_answer: tuple) -> list:
     return sliced
 
 
-def makeover_challenge(character: dict) -> dict:
+def makeover_challenge(player):
     """
-    Run makeover challenge for player player.
+    Run makeover challenge for player.
 
-    :param character: a dictionary representing the player player with the key 'Name' present
+    :param player: a Character
     whose assigned value must be a string
     :precondition: player must be a dictionary
     :precondition: input must be provided by the user for the function to complete
@@ -164,12 +163,12 @@ def makeover_challenge(character: dict) -> dict:
     print(f"RuPaul walks in wearing a Klein Epstein & Parker suit and examines each pair of\n"
           f"queens. She clears her throat in preparation to deliver the results...")
     if correct_answers > 1:
-        helpers.you_win(character, queens[fellow_queen]['Name'], 'makeover_challenge')
-        return  helpers.check_for_level_up(character)
+        helpers.you_win(player, queens[fellow_queen]['Name'], 'makeover_challenge')
+        return player.check_for_level_up()
     else:
         print(f"...and gives the win to another team, who you have to admit look fucking fierce."
               f"\nYou feel your confidence wane slightly.")
-        return  helpers.power_enemy_up_or_down(character, [-2, 0, 0, 0], False)
+        return player.power_up_or_down([-2, 0, 0, 0])
 
 
 def judge_events(character: dict):
