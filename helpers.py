@@ -5,15 +5,13 @@ Helper functions to facilitate game events.
 
 import json
 import random
-import boards
-from character import Character
 
 
 def add_numbers(first, second):
     return first + second
 
 
-def deliver_introduction(player: Character) -> None:
+def deliver_introduction(player) -> None:
     """
     Deliver introduction to player.
 
@@ -56,7 +54,7 @@ def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
     return queen
 
 
-def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> Character:
+def you_win(player, enemy_name: str or None, challenge_name: str):
     """
     Perform win events for player.
 

@@ -2,12 +2,11 @@
 Main game file.
 """
 
-
+import character
 import boards
 import controls
 import challenges
 import helpers
-from character import Character
 
 
 def game():
@@ -16,7 +15,7 @@ def game():
 
     :postcondition: a great time
     """
-    player = Character(input("What is the name of your Drag Persona?\n"))
+    player = character.Character(input("What is the name of your Drag Persona?\n"))
     helpers.deliver_introduction(player)
 
     while not player.get_achieved_goal():

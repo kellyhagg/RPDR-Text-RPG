@@ -4,7 +4,6 @@ Generate coordinates and display the board with each movement.
 
 
 import json
-from character import Character
 
 
 def read_board(board_name: str) -> str:
@@ -155,7 +154,7 @@ def format_board(board: str, board_name: str) -> str:
     return board
 
 
-def display_board(player: Character) -> None:
+def display_board(player) -> None:
     """
     Display game board of current location for the player.
 

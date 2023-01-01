@@ -3,9 +3,8 @@ Generate and operate the controls for the player.
 """
 
 
-import boards
 import challenges
-from boards import index_board
+import boards
 
 
 def show_score(character: dict) -> None:
@@ -42,7 +41,7 @@ def generate_directional_inputs(current_coordinates: tuple, board_name: str) -> 
     and the indices generated in index_board when applied to the opened board text file
     :return: a list of tuples representing the possible inputs and their english meaning
     """
-    board_coordinates = index_board(board_name)
+    board_coordinates = boards.index_board(board_name)
 
     board_limits = [key for key in board_coordinates]
     board_limits.sort(reverse=True)
