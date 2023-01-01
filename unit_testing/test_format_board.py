@@ -20,7 +20,7 @@ class TestFormatBoard(TestCase):
                    '   |                    ---\n' \
                    '   | !   !   !   !   ! | x  $\n' \
                    '    -------------------\n'
-        self.assertEqual(expected, format_board(board, {'location': 'dressing_room'}))
+        self.assertEqual(expected, format_board(board, 'dressing_room'))
 
     def test_format_board_character_placed(self):
         board = '     #   #   #   #   #   #\n' \
@@ -39,7 +39,7 @@ class TestFormatBoard(TestCase):
                    '   |                    ---\n' \
                    '   | x   x   x   x   x | x  $\n' \
                    '    -------------------\n'
-        self.assertEqual(expected, format_board(board, {'location': 'dressing_room'}))
+        self.assertEqual(expected, format_board(board, 'dressing_room'))
 
     def test_format_board_cleared_board(self):
         board = '                          \n' \
@@ -58,7 +58,7 @@ class TestFormatBoard(TestCase):
                    '   |                    ---\n' \
                    '   |                   |    $\n' \
                    '    -------------------\n'
-        self.assertEqual(expected, format_board(board, {'location': 'dressing_room'}))
+        self.assertEqual(expected, format_board(board, 'dressing_room'))
 
     def test_format_board_incorrect_location(self):
         board = '                          \n' \
@@ -77,7 +77,7 @@ class TestFormatBoard(TestCase):
                    '   |                    ---\n' \
                    '   |                   |    $\n' \
                    '    -------------------\n'
-        self.assertEqual(expected, format_board(board, {'location': 'brazil'}))
+        self.assertEqual(expected, format_board(board, 'brazil'))
 
     def test_format_board_judges_panel(self):
         expected = '    #   #   #   #   #   #   #\n' \
@@ -90,7 +90,7 @@ class TestFormatBoard(TestCase):
                    '            _________\n' \
                    '           [_________]\n' \
                    '             J  J  J\n'
-        self.assertEqual(expected, format_board(expected, {'location': 'judges_panel'}))
+        self.assertEqual(expected, format_board(expected, 'judges_panel'))
 
     def test_format_board_main_stage(self):
         board = '    #   #   #   #   #   #   #   #   #   #\n' \
@@ -127,7 +127,7 @@ class TestFormatBoard(TestCase):
                    '   ---                                    |\n' \
                    '    x | !   !   !   !   !   !   !   !   ! | $\n' \
                    '       -----------------------------------\n'
-        self.assertEqual(expected, format_board(board, {'location': 'main_stage'}))
+        self.assertEqual(expected, format_board(board, 'main_stage'))
 
     def test_format_board_werk_room(self):
         board = '     #   #   #   #   #   #   #   #   #\n' \
@@ -158,4 +158,4 @@ class TestFormatBoard(TestCase):
                    '   | !   !   !   Q   !   !   !   !   ! | $\n' \
                    '    ---------------     ---------------\n' \
                    '     x   x   x   x |[e]| x   x   x   x   $\n'
-        self.assertEqual(expected, format_board(board, {'location': 'werk_room'}))
+        self.assertEqual(expected, format_board(board, 'werk_room'))
