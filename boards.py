@@ -4,7 +4,7 @@ Generate coordinates and display the board with each movement.
 
 
 import json
-from character import Character
+from character_class import Character
 
 
 def read_board(board_name: str) -> str:
