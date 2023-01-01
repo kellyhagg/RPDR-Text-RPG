@@ -5,28 +5,22 @@ Generate and operate the controls for the player.
 
 import challenges
 import boards
+import character
 
 
-def show_score(character: dict) -> None:
+def show_score(player) -> None:
     """
     Display current character stats for player
 
-    :param character: must be dictionary representing the player character with the keys 'Charisma',
+    :param player: must be dictionary representing the player character with the keys 'Charisma',
     'Uniqueness', 'Nerve', and 'Talent'
     :precondition: character must be a dictionary
     :postcondition: create a string with the current stats of the player character inside
     :return: print statement displaying current stats of the player character
-    >>> show_score({'Name': 'Ginger Snaps', 'Charisma': 15, 'Uniqueness': 14, 'Nerve': 10, 'Talent': 10})
-    Stats: [Charisma: 15, Uniqueness: 14, Nerve: 10, Talent: 10]
-    >>> show_score({'Charisma': 0, 'Uniqueness': -5, 'Nerve': 200, 'Talent': -1000})
-    Stats: [Charisma: 0, Uniqueness: -5, Nerve: 200, Talent: -1000]
     """
-    charisma = character['Charisma']
-    uniqueness = character['Uniqueness']
-    nerve = character['Nerve']
-    talent = character['Talent']
-    return print(f'Stats: [Charisma: {charisma}, Uniqueness: {uniqueness}, '
-                 f'Nerve: {nerve}, Talent: {talent}]')
+    stats = player.get_stats()
+    return print(f'Stats: [Charisma: {stats[0]}, Uniqueness: {stats[1]}, '
+                 f'Nerve: {stats[2]}, Talent: {stats[3]}]')
 
 
 def generate_directional_inputs(current_coordinates: tuple, board_name: str) -> list:
@@ -86,12 +80,12 @@ def generate_directional_inputs(current_coordinates: tuple, board_name: str) -> 
     return pairs
 
 
-def get_directional_input_from_user(game_input: list, character: dict) -> str:
+def get_directional_input_from_user(game_input: list, player) -> str:
     """
     Process directional input from the player.
 
     :param game_input: must be a list representing valid potential inputs
-    :param character: must be a dictionary representing the player character
+    :param player: must be a dictionary representing the player character
     :precondition: game_input must be a list and character must be a dictionary
     :postcondition: accept input from player
     :postcondition: determines whether input is valid
@@ -132,20 +126,17 @@ def get_directional_input_from_user(game_input: list, character: dict) -> str:
     return answer_string.lower()
 
 
-def move_character(character: dict) -> dict:
+def move_character(player):
     """
-    Process character movement.
+    Process player movement.
 
-    :param character: must be a dictionary representing the player character with the keys
-    'coordinates', 'location', and 'met_rupaul' present with the value of 'coordinates' being a
-    tuple containing two positive integers, the value of 'location' being a string, and the value
-    of 'met_rupaul' being a Boolean
-    :precondition: character must be a dictionary
+    :param player: must be a Character
+    :precondition: player must be a Character
     :postcondition: process the movement of the player character depending on several conditions
     :return: character dictionary representing in-game movement events
     """
-    current_coordinates = character['coordinates']
-    board_name = character['location']
+    current_coordinates = player.get_coordinates()
+    board_name = player.get_location()
 
     game_input = generate_directional_inputs(current_coordinates, board_name)
     move_to_coordinates = get_directional_input_from_user(game_input, character)
