@@ -30,6 +30,9 @@ class Character:
     def get_stats(self):
         return self.stats
 
+    def set_stats(self, new_stats):
+        self.stats = new_stats
+
     def get_level(self):
         return self.level
 
