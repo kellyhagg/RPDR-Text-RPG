@@ -7,6 +7,7 @@ import json
 import random
 import boards
 from character import Character
+import character
 
 
 def add_numbers(first, second):
@@ -92,14 +93,14 @@ def you_win(player: Character, enemy_name: str or None, challenge_name: str) -> 
               f"\nYou have been chosen to take part in a Lip Sync for Your Legacy!\"\n"
               f"\nYou quickly make your way to the stage, \nthe potential lip sync songs spinning"
               f" through your head.")
-        return boards.set_board(player)
+        return player.change_location('main_stage')
     if challenge_name == 'lip_sync':
         print(f"RuPaul's voice echoes: 'ConDRAGulations {player.get_name()}, "
               f"you're a winner baby!'\nYou feel your inner saboteur melting away.")
         print("\nYou are now level 3!")
         player.power_up_or_down((random.randint(30, 40), random.randint(30, 40),
                                  random.randint(30, 40), 20))
-        boards.set_board(player)
+        player.change_location('judges_panel')
         print(f"\nYou are ushered towards the Judge's Panel.")
         return player
     if challenge_name == 'rupaul':
