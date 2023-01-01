@@ -64,6 +64,9 @@ class Character:
 
         self.stats = tuple(map(helpers.add_numbers, self.stats, stat_add_ons[index]))
 
+    def move_to_coordinates(self, new_coordinates):
+        self.coordinates = new_coordinates
+
     def change_location(self, new_location):
         """
         Update character location.
