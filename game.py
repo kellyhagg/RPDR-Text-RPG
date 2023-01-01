@@ -16,6 +16,7 @@ def game():
     :postcondition: a great time
     """
     player = character.Character(input("What is the name of your Drag Persona?\n"))
+    player.setup_character()
     helpers.deliver_introduction(player)
 
     while not player.get_achieved_goal():
