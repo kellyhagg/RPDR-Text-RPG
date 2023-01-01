@@ -75,8 +75,8 @@ def read_battle(player):
                 print(f"{queens[enemy_queen]['Name']}'s read is laughably bad and has no effect!"
                       f"\nShe's clearly never been to the library in her life.")
 
-    if player['level'] != 2:
-        player['Nerve'] = starting_nerve
+    if player.get_level() != 2:
+        player.set_nerve(starting_nerve)
         helpers.you_win(player, queens[enemy_queen]['Name'], 'read_battle')
         return player.check_for_level_up()
     else:
