@@ -225,15 +225,12 @@ def perform_lyrics(lip_sync_dictionary: dict, lyric_list: list) -> bool:
         return False
 
 
-def main_stage_lip_sync(character: dict) -> dict:
+def main_stage_lip_sync(player):
     """
     Run lip sync event for player.
 
-    :param character: a dictionary representing the player player which contains the keys 'Name'
-    'completed_lip_sync', and 'Nerve' where the value assigned to 'Name' is a string, the value
-    assigned to 'completed_lip_sync' is a Boolean, and the value assigned to 'Nerve' is a
-    positive integer
-    :precondition: player must be a dictionary
+    :param player: a Character
+    :precondition: player must be a Character
     :precondition: input must be provided by the user for the function to complete
     :postcondition: print in-game events to user
     :postcondition: run the lip sync event for the player
@@ -264,22 +261,19 @@ def main_stage_lip_sync(character: dict) -> dict:
     print(f"The music stops and you catch your breath, your anticipation growing.")
 
     if correct_first_lyrics and (correct_second_lyrics or correct_final_lyrics):
-        character["completed_lip_sync"] = True
-        return  helpers.you_win(character, None, 'lip_sync')
+        return helpers.you_win(player, None, 'lip_sync')
     elif correct_second_lyrics and (correct_first_lyrics or correct_final_lyrics):
-        character["completed_lip_sync"] = True
-        return  helpers.you_win(character, None, 'lip_sync')
+        return helpers.you_win(player, None, 'lip_sync')
     elif correct_final_lyrics and (correct_first_lyrics or correct_second_lyrics):
-        character["completed_lip_sync"] = True
-        return  helpers.you_win(character, None, 'lip_sync')
+        return helpers.you_win(player, None, 'lip_sync')
     else:
-        helpers.power_enemy_up_or_down(character, [0, 0, -random.randint(5, 10), 0], False)
-        character['coordinates'] = (6, 7)
-        print(f"RuPaul's voice echoes:\n\"I'm sorry, {character['Name']}, you didn't win.\nBut..."
+        player.power_up_or_down([0, 0, -random.randint(5, 10), 0])
+        player.move_to_coordinates((6, 7))
+        print(f"RuPaul's voice echoes:\n\"I'm sorry, {player.get_name()}, you didn't win.\nBut..."
               f" I'm willing to give you another try. Practice up and assume the position\n"
               f"when you're ready to try again.\"\nYou hear your inner saboteur cackling.\nYou have"
-              f" {character['Nerve']} Nerve remaining.")
-    return character
+              f" {player.get_nerve()} Nerve remaining.")
+    return player
 
 
 def final_lip_sync(character: dict) -> dict:
