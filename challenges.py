@@ -315,19 +315,17 @@ def final_lip_sync(player):
     return player.check_if_dead()
 
 
-def final_battle(character: dict) -> None:
+def final_battle(player):
     """
     Run final battle event for player.
 
-    :param character: a dictionary representing the player player with the keys 'Name',
-    'Charisma', and 'Nerve' present, where the value assigned to 'Name' is a string, and the values
-    assigned to 'Charisma' and 'Nerve' are both positive integers
-    :precondition: player must be a dictionary
+    :param player: a Character
+    :precondition: player must be a Character
     :precondition: input must be provided by the user for the function to complete
     :postcondition: runs the final battle for the player
     :postcondition: print in-game events as they occur
     :postcondition: determine whether the player is successful in the final battle or not
-    :postcondition: run final_lip_sync function if player player's health ('Nerve') does not
+    :postcondition: run final_lip_sync function if player's health ('Nerve') does not
     reach or go below 0 before RuPaul's drops below 35
     """
     rupaul_reads = ("I never thought I'd meet a queen whose heels weigh more than her brain",
@@ -342,20 +340,20 @@ def final_battle(character: dict) -> None:
         queens = json.load(file_object)
         queen_bitch_rupaul = queens.get('queen_bitch_rupaul')
 
-    while queen_bitch_rupaul['Nerve'] > 35 and character['Nerve'] > 0:
+    while queen_bitch_rupaul['Nerve'] > 35 and player.get_nerve() > 0:
         print("Mother stands strong, what will you do?")
         player_choice = get_challenge_input_from_user(['Read', 'Act Unimpressed', 'Flee'])
         if player_choice == 'Read':
             if random.randint(1, 20) > 2:
                 print(f"You read {queen_bitch_rupaul['Name']} for the gods... "
                       f"her eye twitches slightly.")
-                rupaul_damage = -(random.randint(1, 8) + math.ceil(character['Charisma'] / 6))
-                helpers.power_enemy_up_or_down(queen_bitch_rupaul, [0, rupaul_damage], True)
+                rupaul_damage = -(random.randint(1, 8) + math.ceil(player.get_charisma() / 6))
+                helpers.power_enemy_up_or_down(queen_bitch_rupaul, (0, rupaul_damage))
             else:
                 print(f"Your read falls flat and {queen_bitch_rupaul['Name']} chuckles.")
         elif player_choice == 'Act Unimpressed':
             print("You are emotionally preparing yourself for RuPaul to read you for filth.")
-            helpers.power_enemy_up_or_down(character, [0, 6, 0, 0], True)
+            player.power_up_or_down([0, 6, 0, 0])
         else:
             print(f'{queen_bitch_rupaul["Name"]} says: "That\'s cute. '
                   f'You are staying right here till we\'re done"')
@@ -364,13 +362,13 @@ def final_battle(character: dict) -> None:
             damage_to_player = -(random.randint(1, 7)
                                  + math.ceil(queen_bitch_rupaul['Charisma'] / 10))
             print(f"{queen_bitch_rupaul['Name']} says,\n\"{random.choice(rupaul_reads)}.\"")
-            helpers.power_enemy_up_or_down(character, [0, 0, damage_to_player, 0], False)
-            helpers.check_if_dead(character)
+            player.power_up_or_down([0, 0, damage_to_player, 0])
+            player.check_if_dead()
         else:
             print(f"{queen_bitch_rupaul['Name']} throws out a read that goes over your head.")
 
-    if character['Nerve'] > 0:
-        final_lip_sync(character)
+    if player.get_nerve() > 0:
+        final_lip_sync(player)
 
 
 def generate_challenge_input(possible_answers: list) -> list:
