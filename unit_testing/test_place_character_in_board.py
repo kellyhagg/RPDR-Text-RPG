@@ -125,12 +125,12 @@ class TestPlaceCharacterInBoard(TestCase):
         expected = '    #   #   #   #   #   #   #\n' \
                    '                               $\n' \
                    '       -----------------------\n' \
-                   '      |         &   !   !  .E> $\n' \
+                   '      |         &   x   x  .x> $\n' \
                    '   ---                     ---\n' \
-                   '   [e]  !   !   !   !   ! | x  $\n' \
+                   '   [x]  x   x   x   x   x | x  $\n' \
                    '   -----------------------\n' \
                    '            _________\n' \
                    '           [_________]\n' \
                    '             J  J  J\n'
 
-        self.assertEqual(expected, place_character_in_board(board, (1, 0)))
+        self.assertEqual(expected, place_character_in_board(board, (1, 3)))
