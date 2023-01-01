@@ -30,6 +30,9 @@ class Character:
     def get_stats(self):
         return self.stats
 
+    def get_level(self):
+        return self.level
+
     def get_charisma(self):
         return self.stats[0]
 
