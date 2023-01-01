@@ -36,18 +36,19 @@ def power_enemy_up_or_down(queen: dict, stat_changes: tuple) -> dict:
     on whether the integers in values are positive or negative
     :return: dictionary representing the queen with their stats changed to reflect game events
     """
-    stat_names = ['charisma', 'uniqueness', 'nerve', 'talent']
-    initial_stats = queen['stats']
+    stat_names = ['charisma', 'nerve']
+    initial_stats = (queen['Charisma'], queen['Nerve'])
     index = 0
 
-    enemy_stats = tuple(map(add_numbers, queen['stats'], stat_changes))
+    queen['Charisma'] += stat_changes[0]
+    queen['Nerve'] += stat_changes[1]
 
     for number in stat_changes:
         if number < 0:
-            print(f'{queen["name"]}\'s {stat_names[index]} has decreased by {abs(number)} to '
+            print(f'{queen["Name"]}\'s {stat_names[index]} has decreased by {abs(number)} to '
                   f'{initial_stats[index] + number}!')
         elif number > 0:
-            print(f'{queen["name"]}\'s {stat_names[index]} has increased by {number} to '
+            print(f'{queen["Name"]}\'s {stat_names[index]} has increased by {number} to '
                   f'{initial_stats[index] + number}!')
         index += 1
 
