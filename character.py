@@ -113,11 +113,11 @@ class Character:
             self.level += 1
             you_win(self, None, 'werk_room')
 
-    def check_if_dead(self, get_nerve):
+    def check_if_dead(self):
         """
         Determine whether player has lost all of their health (nerve).
         """
-        if get_nerve(self) <= 0:
+        if self.get_nerve() <= 0:
             print(f"\nYou hear RuPaul's voice:\n\n\"{self.get_name()},\nThank you for bringing your"
                   f" charisma, uniqueness, nerve, and talent to the\ncompetition... "
                   f"But this is not your time.\nNow.... Sashay Away.\"\n"
