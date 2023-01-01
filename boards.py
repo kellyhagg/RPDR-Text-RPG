@@ -4,6 +4,7 @@ Generate coordinates and display the board with each movement.
 
 
 import json
+from character import Character
 
 
 def read_board(board_name: str) -> str:
@@ -72,38 +73,6 @@ def index_board(board_name: str) -> dict:
     described_coordinates = dict(zip(coordinates, location_type))
 
     return described_coordinates
-
-
-def set_board(character: dict) -> dict:
-    """
-    Set correct values into player character dictionary to represent where they are in the game.
-
-    :param character: a dictionary representing the player character with the keys
-    'met_rupaul', 'location', 'coordinates', and 'level' present, the value of 'met_rupaul' must be
-    a Boolean, the value of 'location' must be a string, the value of 'coordinates' must be a tuple
-    containing two positive integers, and the value of 'level' must be a positive integer
-    :precondition: character must be a dictionary containing pairs bearing the keys 'met_rupaul',
-    'completed_lip_sync' and 'level'
-    :postcondition: if player has met_rupaul their location is updated with values representing the
-    dressing room
-    :postcondition: if player has completed_lip_sync their location is updated with
-    values representing the judges panel
-    :postcondition: if the player character's level is 2 their location is updated with values
-    representing the main stage
-    :return: dictionary with 'location' and 'coordinates' values updated to reflect correct player
-    position
-    >>> set_board({'met_rupaul': True,'completed_lip_sync': True, 'level': 3})
-    {'met_rupaul': True, 'completed_lip_sync': True, 'level': 3, 'location': 'dressing_room', 'coordinates': (1, 5)}
-    >>> set_board({'met_rupaul': False,'completed_lip_sync': False, 'level': 2})
-    {'met_rupaul': False, 'completed_lip_sync': False, 'level': 2, 'location': 'main_stage', 'coordinates': (0, 5)}
-    """
-    if character['met_rupaul']:
-        character.update({'location': 'dressing_room', 'coordinates': (1, 5)})
-    elif character['completed_lip_sync']:
-        character.update({'location': 'judges_panel', 'coordinates': (1, 6)})
-    elif character['level'] == 2:
-        character.update({'location': 'main_stage', 'coordinates': (0, 5)})
-    return character
 
 
 def place_character_in_board(board: str, current_coordinates: tuple) -> str:
@@ -235,9 +204,6 @@ def main():
     print("Based on the symbols in the file, index_board will attach a descriptor as a value"
           " to its\ncoordinates in the format (row, column) beginning from top left"
           " in a dictionary like so:\n\n", index_board('dressing_room'))
-    print("\nset_board({'met_rupaul': True}) will update the key-value pairs for location and\n"
-          "starting coordinates for the specified board in the character dictionary based\n"
-          "on in-game events. This returns the following:\n\n", set_board({'met_rupaul': True}))
     board = place_character_in_board(read_board('dressing_room'), (1, 3))
     print("\nplace_character_in_board(read_board('dressing_room'), (1, 3)) places the character\n"
           "in their current location in the string like so:\n\n", board)
